@@ -1,0 +1,157 @@
+html { 
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+
+#termsModal, #forgotPassword {
+     opacity: .9;
+      background: #00b8d4;
+}
+
+
+.optionButtons {
+    display: inline-block;
+    margin-left: 2%;
+    margin-top: 3%;
+    /*height: 50px;*/
+    /*width: 100px;*/
+}
+#userLogin {
+    overflow: auto;
+    margin-top: 100px;
+    box-shadow: 0 10px 100px 0 black, 0 10px 100px 0 black;
+    border-radius: 60px;
+    opacity: .9;
+}
+
+.card {
+      opacity: .8;
+    /*border-radius: 60px;*/
+    /*background-color: red;*/
+}
+
+#userRegister {
+    overflow: auto;
+    position: scroll;
+    box-shadow: 0 10px 100px 0 black, 0 10px 100px 0 black;
+    height: 400px;
+}
+
+#registerContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+body {
+    
+    overflow: auto;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4qtdy8-TptQ_xERtVxeYMD3s-ghqms8CD0x1fIdJkHGWcbXY);
+    background-repeat: no-repeat;
+    background-size: cover;
+	background-position: center;
+
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+#userEmail:focus,
+#userFirstName:focus,
+#userLastName:focus,
+#registerEmail:focus,
+#userPassword:focus,
+#registerPassword:focus {
+    border-bottom: 1px solid #b0bec5;
+    -webkit-box-shadow: 0 1px 0 0 #b0bec5;
+    -moz-box-shadow: 0 1px 0 0 #b0bec5;
+    box-shadow: 0 1px 0 0 #b0bec5;
+}
+
+.active {
+    color: #b0bec5!important;
+}
+
+.dropdown-content li>span {
+    color: black !important;
+}
+
+
+body1 {
+    background: #000;
+}
+
+
+#card-image {
+    border-radius: 60px;
+}
+
+
+
+footer {
+
+    opacity: .9;
+}
+
+#questions {
+    overflow: auto;
+    display: flex;
+    border-radius: 60px;
+    opacity: .9;
+
+}
+
+
+#actionImage, .weaponImage {
+    height: 130px;
+    width: 250px;
+}
+
+.tabs {
+    margin-top: 10%;
+    overflow: auto;
+    
+}
+
+#infoCard {
+    margin-top: 25%;
+}
+
+ #test-swipe-1, #test-swipe-2, #test-swipe-3, #forSale {
+
+    height: 500px;
+    overflow: auto;
+    position: scroll;
+    opacity: .9;
+}
+
+@media screen and (max-width: 750px) and (min-width: 200px) {
+    .test {
+        display: none;
+
+    }
+    #userLogin {
+        text-align: center;
+        margin-top: 5%;
+       
+        overflow: auto;
+        border-radius: 40px;
+    }
+    .card {
+          opacity: .9;
+        /*margin-top: 20%;*/
+        /*margin-left: 15%;*/
+        /*border-radius: 40px;*/
+    }
+    
+ 
+}
