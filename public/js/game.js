@@ -7,7 +7,7 @@ $(document).ready(function() {
     //==================================
     var money;
     var health;
-    var maxHealth;
+    var maxHealth = 200;
     var strength;
     var defense;
     var streetCredit;
@@ -18,6 +18,7 @@ $(document).ready(function() {
     var weaponId;
     var oldQ;
     var doesExist = false;
+    var hasCar = false;
 
 
     // load the option buttons
@@ -28,7 +29,6 @@ $(document).ready(function() {
         $("#username").text(data.username);
         username = data.username;
         $("#health").text("Your Health: " + data.health);
-        maxHealth = data.health;
         health = data.health;
         $("#strength").text(data.strength);
         strength = data.strength;
@@ -81,7 +81,7 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-            $("#weaponsDiv").append(div);
+                    $("#weaponsDiv").append(div);
         });
     }
 
@@ -204,7 +204,6 @@ $(document).ready(function() {
             price: 50,
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfJ7FZxFm-UzSkae6t5kB-k1uZL0psxJTvMW7i9gDqSvk9WgST"
-
         },
         
          {
@@ -215,10 +214,16 @@ $(document).ready(function() {
             price: 40,
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYyiFYOZ5Gd4CNi1jncb-0QBtd2L6ikIcpEka6NgUfeAIDil-j"
-
         },
-       
- 
+         {
+            index: 5,
+            name: "Caddy",
+            type: "car",
+            value: 100,
+            price: 1000,
+            level: 1,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcOr9hhEzkGgVMKBtEP6yRDzjIoqismQ8NIswrr-OFrOk4KnaSVQ"
+        },
     ];
 
     showWeapons()
@@ -240,8 +245,16 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-
-            $("#forSale").append(div);
+    
+                if (result.type == "drug") {
+                    $("#drugs").append(div);
+                }
+                else if (result.type == "gun") {
+                    $("#guns").append(div);
+                }
+                 else if (result.type == "car") {
+                    $("#cars").append(div);
+                }
         });
     }
 
@@ -255,6 +268,10 @@ $(document).ready(function() {
                     console.log("doesExist: " + doesExist);
                     console.log("weaponId: " + weaponId);
                 }
+                else if (inventory[i].type == "car") {
+                    // update hasCar
+                    hasCar = true;
+                }
             }
         }
     }
@@ -265,6 +282,7 @@ $(document).ready(function() {
         let name = weapons[k].name;
         let value = weapons[k].value;
         let image = weapons[k].image;
+        let type = weapons[k].type;
         // tell them they bought it 
         $("#message").text("You bought " + name);
         $("#actionImage").attr('src', image)
@@ -286,6 +304,7 @@ $(document).ready(function() {
                 value: value,
                 quantity: 1,
                 image: image,
+                type: type,
                 gameUserId: userId
             }; // save it
             saveWeapon(weapon);
@@ -295,10 +314,8 @@ $(document).ready(function() {
 
     // when you purchase a weapon
     $(document).on("click", ".purchase", function() {
-
         // use the index value to get info
         var k = $(this).attr("value");
-
         // check inventory
         checkInventory(k);
         // check if they have enough money
@@ -309,7 +326,6 @@ $(document).ready(function() {
         else { // if they do, update the user and weapon data
             // do the math
             money -= weapons[k].price;
-           
             // update your character
             let info = {
                 username: username,
@@ -321,17 +337,12 @@ $(document).ready(function() {
                 streetCredit: streetCredit,
             } // update user 
             updateUser(info);
-
-
             // perform update based on doesExist value
             setTimeout(function() {
                 performUpdate(k);
             }, 500)
-
-
         }
     });
-
 
 
     // possibilities for when when you click on a button
@@ -804,6 +815,9 @@ $(document).ready(function() {
 
     // when you click on do a drive-by
     $(document).on("click", "#driveBy", function() {
+        var k = $(this).attr("value");
+        checkInventory(k)
+        if (hasCar == true) {
         $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(driveBy);
@@ -824,6 +838,12 @@ $(document).ready(function() {
         // run the functions
         updateHealth();
         levelUp();
+        }
+        else {
+           
+            $("#message").text("You have to own a car to do a drive-by!");
+            $('#modal1').modal('open');
+        }
     });
 
     // when you click on sell crack
@@ -877,30 +897,6 @@ $(document).ready(function() {
         }
     });
 
-
-    // // when you click on sell weed
-    // $(document).on("click", "#sellWeed", function() {
-    //     $("#actionImage").show();
-    //     // shuffle the scenarios around
-    //     shuffleArray(sellWeed);
-    //     // get the one off the end
-    //     var currentScenario = sellWeed.slice(-1)[0];
-    //     // tell them what happened
-    //     $("#actionImage").attr('src', currentScenario.image);
-    //     $("#message").text(currentScenario.scenario);
-    //     $('#modal1').modal('open');
-    //     // get info to update
-    //     health += Math.floor(currentScenario.health + ((defense + 5) / strength));
-    //     money += currentScenario.money;
-    //     streetCredit += currentScenario.streetCredit;
-    //     // update display
-    //     $("#health").text("Your Health: " + health);
-    //     $("#money").text("You Have: $" + money);
-    //     $("#streetCredit").text("Street Credit: " + streetCredit);
-    //     // run the functions
-    //     updateHealth();
-    //     levelUp();
-    // });
 
  // when you click on sell weed
     $(document).on("click", "#sellWeed", function() {

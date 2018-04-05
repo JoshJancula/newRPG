@@ -13,84 +13,92 @@
 
     <main>
 
-      
-<div class="row">
-<div class="col l1 m1"></div>
+
         <div class="row">
-            <!--<div class="card">-->
+            <div class="col l1 m1"></div>
+            <div class="row">
+                <!--<div class="card">-->
                 <!--<div class="card-content">-->
-            
-            <div class="col l7 m7">
-                <!--game options go here-->
-                <div class="row">
-                    
-                    <ul id="tabs-swipe-demo" class="tabs blue">
-                        <li class="tab col l4 "><a class="white-text" href="#test-swipe-2">My Stuff</a></li>
-                        <li class="tab col l4"><a class="active white-text" href="#test-swipe-1">Do Something</a></li>
-                        <li class="tab col l4"><a class="white-text" href="#test-swipe-3">Buy Stuff</a></li>
-                    </ul>
-                    <!--tab1-->
-                    <div id="test-swipe-1" class="col l12 blue">
-                        <!--buttons with all sorts of options -->
-                        <div id="optionButtons"></div><br>
-                    </div>
-                    <!--tab2-->
-                    <div id="test-swipe-2" class="col l12 blue">
-                        
-                        <div id="weaponsDiv"></div>
-                        <div id="instructions"></div>
-                    </div>
-                    <!--tab3-->
-                    <div id="test-swipe-3" class="col l12 blue">
-                        <!--buy weapons (based on your level)-->
-                        <div id="forSale"></div>
+
+                <div class="col l7 m7">
+                    <!--game options go here-->
+                    <div class="row">
+
+                        <ul id="tabs-swipe-demo" class="tabs blue">
+                            <li class="tab col l4 "><a class="white-text" href="#test-swipe-2">My Stuff</a></li>
+                            <li class="tab col l4"><a class="active white-text" href="#test-swipe-1">Do Something</a></li>
+                            <li class="tab col l4"><a class="white-text" href="#test-swipe-3">Buy Stuff</a></li>
+                        </ul>
+                        <!--tab1-->
+                        <div id="test-swipe-1" class="col l12 blue">
+                            <!--buttons with all sorts of options -->
+                            <div id="optionButtons"></div><br>
+                        </div>
+                        <!--tab2-->
+                        <div id="test-swipe-2" class="col l12 blue">
+
+                            <div id="weaponsDiv"></div>
+                            <div id="instructions"></div>
+                        </div>
+                        <!--tab3-->
+                        <div id="test-swipe-3" class="col l12 blue">
+                            <!--buy weapons (based on your level)-->
+                            <ul id="saleTabs" class="tabs">
+                                <li class="tab col s3"><a href="#guns">Guns</a></li>
+                                <li class="tab col s3"><a class="active" href="#drugs">Drugs</a></li>
+                                <li class="tab col s3"><a href="#cars">Cars</a></li>
+                            </ul>
+                            <div id="guns" class="col s12"></div>
+                            <div id="drugs" class="col s12"></div>
+                            <div id="cars" class="col s12"></div>
+                            <div id="forSale"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col l3 m3 s10 push-s1 white-text center">
-                <!--your stats and stockpile/inventory here-->
-                <div class="card blue" id="infoCard">
-                 <h4 id="username"></h4>
-                <h5 id="level"></h5>
-                <h5 id="health"></h5>
-                <h5 id="money"></h5>
-                <h5 id="streetCredit"></h5><br>
-                <button id="saveGame" class="btn">Save Game</button>
+                <div class="col l3 m3 s10 push-s1 white-text center">
+                    <!--your stats and stockpile/inventory here-->
+                    <div class="card blue" id="infoCard">
+                        <h4 id="username"></h4>
+                        <h5 id="level"></h5>
+                        <h5 id="health"></h5>
+                        <h5 id="money"></h5>
+                        <h5 id="streetCredit"></h5><br>
+                        <button id="saveGame" class="btn">Save Game</button>
+                    </div>
                 </div>
+                <!--</div>-->
+                <!--</div>-->
             </div>
-        <!--</div>-->
-        <!--</div>-->
-        </div>
-        <!--</div>-->
-        <div class="col l1 m1"></div>
+            <!--</div>-->
+            <div class="col l1 m1"></div>
         </div>
     </main>
 
-<!-- Modal -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-        <div class="row">
-            <div class="col l6 s12">
-                <!--image-->
-                <img id="actionImage">
+    <!-- Modal -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col l6 s12">
+                    <!--image-->
+                    <img id="actionImage">
+                </div>
+                <div class="col l6 s12">
+                    <h4 id="message"></h4>
+                </div>
             </div>
-            <div class="col l6 s12">
-                 <h4 id="message"></h4>
-            </div>
-        </div>
-     
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-  </div>
 
-  
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="./js/game.js"></script>
-   
+
     <script>
         $(document).ready(function() {
             $('.collapsible').collapsible();

@@ -134,6 +134,10 @@ footer {
     opacity: .9;
 }
 
+#saleTabs, #myTabs {
+    margin-top: 0;
+}
+
 @media screen and (max-width: 750px) and (min-width: 200px) {
     .test {
         display: none;
