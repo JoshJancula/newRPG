@@ -96,25 +96,50 @@ $(document).on("click", "#addDefense", function() {
 
   }
 
+  // function submitToApi(user) {
+  //   console.log("about to create user");
+  //   $.post("/api/users", user, function(data, err) {
+
+  //     console.log(JSON.stringify(data));
+  //     console.log(JSON.stringify(err));
+  //     if (err != "success") {
+  //       console.log(err)
+  //     }
+  //     else {
+
+  //       window.location.href = '/login';
+  //     }
+  //     // If there's an error, handle it by throwing up an alert
+  //   }).catch(handleErr);
+  // }
+  
+  
   function submitToApi(user) {
-    console.log("about to create user");
-    $.post("/api/users", user, function(data, err) {
-
-      console.log(JSON.stringify(data));
-      console.log(JSON.stringify(err));
-      if (err != "success") {
-        console.log(err)
-      }
-      else {
-
-        window.location.href = '/login';
-      }
-      // If there's an error, handle it by throwing up an alert
-    }).catch(handleErr);
+   
+  $.ajax({
+            method: "POST",
+            url: "/api/users/",
+            data: user
+  }).done(function(data){
+    let userId = data.id;
+    let weapon = {
+                name: ".22",
+                value: "1",
+                quantity: 1,
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4TIR9nMSzRL5_WR1XTv0HgNSeZnjK95vEC-yoQtGyteoI7csArg" ,
+                type: "gun",
+                gameUserId: userId
+            };
+     $.post("/api/weapons", weapon, function() {
+           console.log("weapon created")
+        }).done(function() {
+          window.location.href='login';
+        })
+  })
+      
   }
 
-
-
+ 
   // function to handle errors
   function handleErr(err) {
     $("#alert .msg").text(err.responseJSON);

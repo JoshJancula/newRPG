@@ -224,6 +224,15 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcOr9hhEzkGgVMKBtEP6yRDzjIoqismQ8NIswrr-OFrOk4KnaSVQ"
         },
+         {
+            index: 6,
+            name: ".22",
+            type: "gun",
+            value: 1,
+            price: 100,
+            level: 1,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4TIR9nMSzRL5_WR1XTv0HgNSeZnjK95vEC-yoQtGyteoI7csArg"
+        },
     ];
 
     showWeapons()
