@@ -61,8 +61,21 @@
                         </div>
                         <!--tab2-->
                         <div id="test-swipe-2" class="col l12 blue">
-                            <div id="weaponsDiv"></div>
-                            <div id="instructions"></div>
+                            <!--<div id="weaponsDiv"></div>-->
+                           
+                            <ul id="myTabs" class="tabs">
+                                <li class="tab col s3"><a class="active" href="#myGuns">Guns</a></li>
+                                <li class="tab col s3"><a href="#myDrugs">Drugs</a></li>
+                                <li class="tab col s3"><a href="#myCars">Cars</a></li>
+                            </ul>
+                            <div id="myGuns" class="col s12"></div>
+                            <div id="myDrugs" class="col s12">
+                                 <div id="instructions"></div>
+                            </div>
+                            <div id="myCars" class="col s12">
+                                <div id="instructions2"></div>
+                                </div>
+
                         </div>
                         <!--tab3-->
                         <div id="test-swipe-3" class="col l12 blue">
@@ -128,10 +141,8 @@
                                         <label class="black-text" for="quantityInput">1</label>
                                     </div>
                     </div>
-                    
                 </div>
             </div>
-
         </div>
         <div class="modal-footer">
             <a href="#!" id="completePurchase" class="modal-action modal-close waves-effect waves-green btn-flat">Purchase</a>

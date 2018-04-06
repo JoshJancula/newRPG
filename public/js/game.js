@@ -57,6 +57,7 @@ $(document).ready(function() {
     // if they don't have any yet
     function displayEmpty() {
         // there is nothing in here so....
+
         $("#instructions").html("<h3>You don't have any weapons yet</h3>");
     }
 
@@ -81,7 +82,20 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-                    $("#weaponsDiv").append(div);
+            // $("#weaponsDiv").append(div);
+            if (result.type == "drug") {
+                $('#instructions').hide();
+                $("#myDrugs").append(div);
+            }
+            else if (result.type == "gun") {
+                $("#myGuns").append(div);
+            }
+            else if (result.type == "car") {
+                $("#myCars").append(div);
+                $('#instructions2').hide();
+            }
+            $("#instructions").html("<h3>You don't have any drugs to sell</h3>");
+            $("#instructions2").html("<h3>You don't have a car</h3>");
         });
     }
 
@@ -123,7 +137,9 @@ $(document).ready(function() {
         $.post("/api/weapons", weapon, function() {
             $.get("/api/users/" + userId, function(data) {
                 console.log("data from saveWeapon", data);
-                $("#weaponsDiv").empty();
+                 $("#myGuns").empty();
+                $("#myDrugs").empty();
+                $("#myCars").empty();
                 inventory = data.Weapons;
                 // show em what they got
                 getWeapons(inventory);
@@ -140,7 +156,9 @@ $(document).ready(function() {
         }).done(function() {
             $.get("/api/users/" + userId, function(data) {
                 console.log("data from saveWeapon", data);
-                $("#weaponsDiv").empty();
+                $("#myGuns").empty();
+                $("#myDrugs").empty();
+                $("#myCars").empty();
                 inventory = data.Weapons;
                 // show em what they got
                 getWeapons(inventory);
@@ -155,7 +173,7 @@ $(document).ready(function() {
 
     // weapons array contains all weapons and
     var weapons = [ //  cars and things you can buy
-    
+
         {
             index: 0,
             name: "glock 19",
@@ -196,7 +214,7 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSITK7vscJIwgCqfYkR_DZAO6HtqlSZg9EjlfldgspLE3dQ6YeN"
 
         },
-         {
+        {
             index: 4,
             name: "Crack",
             type: "drug",
@@ -205,8 +223,8 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfJ7FZxFm-UzSkae6t5kB-k1uZL0psxJTvMW7i9gDqSvk9WgST"
         },
-        
-         {
+
+        {
             index: 5,
             name: "Weed",
             type: "drug",
@@ -215,7 +233,7 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYyiFYOZ5Gd4CNi1jncb-0QBtd2L6ikIcpEka6NgUfeAIDil-j"
         },
-         {
+        {
             index: 6,
             name: "Caddy",
             type: "car",
@@ -224,7 +242,7 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcOr9hhEzkGgVMKBtEP6yRDzjIoqismQ8NIswrr-OFrOk4KnaSVQ"
         },
-         {
+        {
             index: 7,
             name: ".22",
             type: "gun",
@@ -233,8 +251,8 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4TIR9nMSzRL5_WR1XTv0HgNSeZnjK95vEC-yoQtGyteoI7csArg"
         },
-        
-       
+
+
     ];
 
     showWeapons()
@@ -244,7 +262,7 @@ $(document).ready(function() {
             // if (result.level <= level) {
             var div = $("<div>").append(
                 "<div class='row'>" +
-                "<div class='col l10 s12'>" + "<div class='card'>" + "<div class='card-image col l4 s12'>" + "<img class='weaponImage' src=" + result.image + ">" +
+                "<div class='col l10 s12'>" + "<div class='card inventoryCard'>" + "<div class='card-image col l4 s12'>" + "<img class='weaponImage' src=" + result.image + ">" +
                 "</div>" +
                 "<div class='card-stacked'>" + "<div class='card-content'>" +
                 "<h2>" + result.name + "</h2>" +
@@ -256,16 +274,16 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
- 
-                if (result.type == "drug") {
-                    $("#drugs").append(div);
-                }
-                else if (result.type == "gun") {
-                    $("#guns").append(div);
-                }
-                 else if (result.type == "car") {
-                    $("#cars").append(div);
-                }
+
+            if (result.type == "drug") {
+                $("#drugs").append(div);
+            }
+            else if (result.type == "gun") {
+                $("#guns").append(div);
+            }
+            else if (result.type == "car") {
+                $("#cars").append(div);
+            }
         });
     }
 
@@ -300,7 +318,7 @@ $(document).ready(function() {
         let image = weapons[k].image;
         let type = weapons[k].type;
         // tell them they bought it 
-        $("#message").text("You bought " + name);
+        $("#message").text("You bought " + quantity + " " + name);
         $("#actionImage").attr('src', image)
         $('#modal1').modal('open');
         // update money display
@@ -328,20 +346,21 @@ $(document).ready(function() {
         doesExist = false;
         $("#quantityInput").val("");
     }
-    
+
     // when you click to purchase something ask how many they want
     $(document).on("click", ".purchase", function() {
         var k = $(this).attr("value");
         $("#completePurchase").attr('value', k);
-          // ask how many units to purchase
+        // ask how many units to purchase
         $("#message2").text("How many would you like to purchase?");
         $("#actionImage2").attr('src', weapons[k].image);
         $('#modal2').modal('open');
     });
 
+
     // complete the purchase
     $(document).on("click", "#completePurchase", function() {
-       event.preventDefault();
+        event.preventDefault();
         // use the index value to get info
         var quantity = $("#quantityInput").val();
         if (!quantity || quantity.val == "") {
@@ -358,7 +377,7 @@ $(document).ready(function() {
         }
         else { // if they do, update the user and weapon data
             // do the math
-            money -= weapons[k].price;
+            money -= total;
             // update your character
             let info = {
                 username: username,
@@ -382,6 +401,13 @@ $(document).ready(function() {
     //===================================================
 
     var pimp = [ // you pimp some hoes
+        {
+            scenario: "Your bitches did good tonight! Made $500",
+            health: 0,
+            money: 500,
+            streetCredit: 20,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKaDVOpPshFWeUdxueoBlCJ4G_oBaZOLW2VRaY5KPCtak6Oj8Ng"
+        },
         {
             scenario: "Your bitches did good tonight! Made $500",
             health: 0,
@@ -851,29 +877,30 @@ $(document).ready(function() {
         var k = $(this).attr("value");
         checkInventory(k)
         if (hasCar == true) {
-        $("#actionImage").show();
-        // shuffle the scenarios around
-        shuffleArray(driveBy);
-        // get the one off the end
-        var currentScenario = driveBy.slice(-1)[0];
-        // tell them what happened
-        $("#actionImage").attr('src', currentScenario.image);
-        $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
-        // get info to update
-        health += Math.floor(currentScenario.health + ((defense + 5) / strength));
-        money += currentScenario.money;
-        streetCredit += currentScenario.streetCredit;
-        // update display
-        $("#health").text("Your Health: " + health);
-        $("#money").text("You Have: $" + money);
-        $("#streetCredit").text("Street Credit: " + streetCredit);
-        // run the functions
-        updateHealth();
-        levelUp();
+            $("#actionImage").show();
+            // shuffle the scenarios around
+            shuffleArray(driveBy);
+            // get the one off the end
+            var currentScenario = driveBy.slice(-1)[0];
+            // tell them what happened
+            console.log(driveBy[0].image)
+            $("#actionImage").attr('src', driveBy[0].image);
+            $("#message").text(currentScenario.scenario);
+            $('#modal1').modal('open');
+            // get info to update
+            health += Math.floor(currentScenario.health + ((defense + 5) / strength));
+            money += currentScenario.money;
+            streetCredit += currentScenario.streetCredit;
+            // update display
+            $("#health").text("Your Health: " + health);
+            $("#money").text("You Have: $" + money);
+            $("#streetCredit").text("Street Credit: " + streetCredit);
+            // run the functions
+            updateHealth();
+            levelUp();
         }
         else {
-           
+
             $("#message").text("You have to own a car to do a drive-by!");
             $('#modal1').modal('open');
         }
@@ -917,7 +944,7 @@ $(document).ready(function() {
             // run the functions
             updateHealth();
             levelUp();
-            let info = {// update your user
+            let info = { // update your user
                 username: username,
                 health: health,
                 defense: defense,
@@ -931,7 +958,7 @@ $(document).ready(function() {
     });
 
 
- // when you click on sell weed
+    // when you click on sell weed
     $(document).on("click", "#sellWeed", function() {
         var k = $(this).attr("value");
         console.log("K at the beggining of sellWeed: " + k)
@@ -969,7 +996,7 @@ $(document).ready(function() {
             // run the functions
             updateHealth();
             levelUp();
-            let info = {// update your user
+            let info = { // update your user
                 username: username,
                 health: health,
                 defense: defense,
