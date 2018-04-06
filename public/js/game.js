@@ -216,7 +216,7 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYyiFYOZ5Gd4CNi1jncb-0QBtd2L6ikIcpEka6NgUfeAIDil-j"
         },
          {
-            index: 5,
+            index: 6,
             name: "Caddy",
             type: "car",
             value: 100,
@@ -225,7 +225,7 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcOr9hhEzkGgVMKBtEP6yRDzjIoqismQ8NIswrr-OFrOk4KnaSVQ"
         },
          {
-            index: 6,
+            index: 7,
             name: ".22",
             type: "gun",
             value: 1,
@@ -233,6 +233,8 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4TIR9nMSzRL5_WR1XTv0HgNSeZnjK95vEC-yoQtGyteoI7csArg"
         },
+        
+       
     ];
 
     showWeapons()
@@ -254,7 +256,7 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-    
+ 
                 if (result.type == "drug") {
                     $("#drugs").append(div);
                 }
@@ -287,6 +289,11 @@ $(document).ready(function() {
 
 
     function performUpdate(k) {
+        // get the quantity 
+        var quantity = $("#quantityInput").val();
+        if (!quantity || quantity.val == "") {
+            quantity = 1;
+        }
         // update display
         let name = weapons[k].name;
         let value = weapons[k].value;
@@ -311,7 +318,7 @@ $(document).ready(function() {
             let weapon = {
                 name: name,
                 value: value,
-                quantity: 1,
+                quantity: quantity,
                 image: image,
                 type: type,
                 gameUserId: userId
@@ -319,16 +326,33 @@ $(document).ready(function() {
             saveWeapon(weapon);
         } // reset doesExist
         doesExist = false;
+        $("#quantityInput").val("");
     }
-
-    // when you purchase a weapon
+    
+    // when you click to purchase something ask how many they want
     $(document).on("click", ".purchase", function() {
-        // use the index value to get info
         var k = $(this).attr("value");
+        $("#completePurchase").attr('value', k);
+          // ask how many units to purchase
+        $("#message2").text("How many would you like to purchase?");
+        $("#actionImage2").attr('src', weapons[k].image);
+        $('#modal2').modal('open');
+    });
+
+    // complete the purchase
+    $(document).on("click", "#completePurchase", function() {
+       event.preventDefault();
+        // use the index value to get info
+        var quantity = $("#quantityInput").val();
+        if (!quantity || quantity.val == "") {
+            quantity = 1;
+        }
+        var k = $(this).attr("value");
+        var total = (weapons[k].price * quantity);
         // check inventory
         checkInventory(k);
         // check if they have enough money
-        if (weapons[k].price > money) {
+        if (total > money) {
             $("#message").text("You don't have enought $$$$$$$");
             $('#modal1').modal('open');
         }
