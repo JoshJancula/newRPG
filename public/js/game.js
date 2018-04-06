@@ -68,7 +68,7 @@ $(document).ready(function() {
         // create a card to put it all in
         var div = $("<div class='card'>");
         data.forEach(function(result) {
-            // if (result.level <= level) {
+           
             var div = $("<div>").append(
                 "<div class='row'>" +
                 "<div class='col l10 s12'>" + "<div class='card'>" + "<div class='card-image col l4 s12'>" + "<img class='weaponImage' src=" + result.image + ">" +
@@ -93,10 +93,13 @@ $(document).ready(function() {
             else if (result.type == "car") {
                 $("#myCars").append(div);
                 $('#instructions2').hide();
+                hasCar = true;
             }
             $("#instructions").html("<h3>You don't have any drugs to sell</h3>");
             $("#instructions2").html("<h3>You don't have a car</h3>");
+            
         });
+    
     }
 
 
@@ -137,7 +140,7 @@ $(document).ready(function() {
         $.post("/api/weapons", weapon, function() {
             $.get("/api/users/" + userId, function(data) {
                 console.log("data from saveWeapon", data);
-                 $("#myGuns").empty();
+                $("#myGuns").empty();
                 $("#myDrugs").empty();
                 $("#myCars").empty();
                 inventory = data.Weapons;
@@ -259,7 +262,7 @@ $(document).ready(function() {
     // function to show the weapons for sale
     function showWeapons() {
         weapons.forEach(function(result) {
-            // if (result.level <= level) {
+          
             var div = $("<div>").append(
                 "<div class='row'>" +
                 "<div class='col l10 s12'>" + "<div class='card inventoryCard'>" + "<div class='card-image col l4 s12'>" + "<img class='weaponImage' src=" + result.image + ">" +
@@ -274,7 +277,7 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-
+          
             if (result.type == "drug") {
                 $("#drugs").append(div);
             }
@@ -284,6 +287,7 @@ $(document).ready(function() {
             else if (result.type == "car") {
                 $("#cars").append(div);
             }
+            
         });
     }
 
@@ -317,10 +321,17 @@ $(document).ready(function() {
         let value = weapons[k].value;
         let image = weapons[k].image;
         let type = weapons[k].type;
+
         // tell them they bought it 
+        if (type == "drug") {
+        $("#message").text("You bought " + quantity + " bags of " + name);
+        $("#actionImage").attr('src', image)
+        $('#modal1').modal('open');
+        } else {
         $("#message").text("You bought " + quantity + " " + name);
         $("#actionImage").attr('src', image)
         $('#modal1').modal('open');
+        }
         // update money display
         $("#money").text("You Have: $" + money);
         // if one already exists...
@@ -372,6 +383,7 @@ $(document).ready(function() {
         checkInventory(k);
         // check if they have enough money
         if (total > money) {
+             $("#actionImage").hide();
             $("#message").text("You don't have enought $$$$$$$");
             $('#modal1').modal('open');
         }
@@ -397,7 +409,7 @@ $(document).ready(function() {
     });
 
 
-    // possibilities for when when you click on a button
+    // original level 1 options
     //===================================================
 
     var pimp = [ // you pimp some hoes
@@ -430,6 +442,13 @@ $(document).ready(function() {
             streetCredit: 5,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
+          {
+            scenario: "It's been hard on the girls, only made $200 tonight",
+            health: 0,
+            money: 200,
+            streetCredit: 5,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
         {
             scenario: "One of your girls got caught soliciting to a cop and snitched! Pay $600 to get you and your hoes outta jail.",
             health: 0,
@@ -438,9 +457,9 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-AAvizxZgXEhSqcfRI4f3LWOpgHt3XsY7aYgQ2qR_u-D3OdGE"
         },
         {
-            scenario: "Your bitches did good tonight! Made $700",
+            scenario: "Your bitches did good tonight! Made $1000",
             health: 0,
-            money: 500,
+            money: 1000,
             streetCredit: 20,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwKaDVOpPshFWeUdxueoBlCJ4G_oBaZOLW2VRaY5KPCtak6Oj8Ng"
         },
@@ -501,12 +520,19 @@ $(document).ready(function() {
             streetCredit: -20,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
         },
+         {
+            scenario: "You got stabbed by a crackhead! You'll live but he got $50 worth of crack!",
+            health: 0,
+            money: 0,
+            streetCredit: -20,
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
+        },
 
         {
             scenario: "Deal Successfull! Count that paper!",
             health: 0,
-            money: 100,
-            streetCredit: 5,
+            money: 150,
+            streetCredit: 10,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
@@ -519,36 +545,34 @@ $(document).ready(function() {
         {
             scenario: "Deal Successfull! Count that paper!",
             health: 0,
-            money: 200,
-            streetCredit: 5,
+            money: 150,
+            streetCredit: 10,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
             scenario: "Deal Successfull! But somebody robbed one of your guys!!",
             health: 0,
             money: -100,
-            streetCredit: 5,
+            streetCredit: 10,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmoybOow9XsNXixlzQYm0JBJc3eXepNkr1nkc4n9xfWmgCPpZ5"
         },
         {
             scenario: "Deal Successfull! Count that paper!",
             health: 0,
-            money: 100,
-            streetCredit: 5,
+            money: 150,
+            streetCredit: 10,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
 
-    ]
-
-
-
+    ];
+    
     // do a drive-by on some
     var driveBy = [ // punk mofos
 
         {
-            scenario: "You hit 2 of their members and got a little cash, but your home-boy Reggie got shot!",
-            money: 200,
-            streetCredit: 10,
+            scenario: "You hit 2 of their members, but your home-boy Reggie got shot!",
+            money: 0,
+            streetCredit: 30,
             health: -50,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xfH-ij-CraeFOC9_mPVgqpWV33fw9_RAO7tqopU4_xzRUGlb"
         },
@@ -563,7 +587,15 @@ $(document).ready(function() {
             scenario: "You capped some Mofo's!",
             health: 0,
             money: 0,
-            streetCredit: 15,
+            streetCredit: 25,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xfH-ij-CraeFOC9_mPVgqpWV33fw9_RAO7tqopU4_xzRUGlb"
+
+        },
+         {
+            scenario: "You capped some Mofo's!",
+            health: 0,
+            money: 0,
+            streetCredit: 25,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xfH-ij-CraeFOC9_mPVgqpWV33fw9_RAO7tqopU4_xzRUGlb"
 
         },
@@ -588,15 +620,15 @@ $(document).ready(function() {
     var BE = [
 
         {
-            scenario: "You got $600 but your home-boy Reggie got shot! You give him $300 to help with the medical bills",
-            money: 300,
+            scenario: "You got $600 but your home-boy Reggie got shot! You give him $250 to keep a doctor quiet",
+            money: 350,
             streetCredit: 15,
             health: -50,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xfH-ij-CraeFOC9_mPVgqpWV33fw9_RAO7tqopU4_xzRUGlb"
         },
         {
             scenario: "You got busted by the cops! $150 for bail bro!",
-            health: 0,
+            health: -10,
             money: -150,
             streetCredit: -20,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
@@ -617,7 +649,7 @@ $(document).ready(function() {
 
         },
         {
-            scenario: "You got some stuff but also got bit by a pitt bull!",
+            scenario: "You got some jewelery, but also got bit by a pitt bull! ",
             money: 150,
             health: -25,
             streetCredit: -10,
@@ -625,7 +657,7 @@ $(document).ready(function() {
         },
 
         {
-            scenario: "Got yourself a flat screen TV and pawned it for $100!",
+            scenario: "Got yourself a flat screen TV and pawned it for $200!",
             health: 0,
             money: 200,
             streetCredit: 10,
@@ -644,7 +676,21 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
         },
         {
-            scenario: "You got $150 off that punk",
+            scenario: "You got $250 off that punk",
+            health: 0,
+            money: 250,
+            streetCredit: 10,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "You got $1000 off that punk. In retaliation him and his crew robbed your home boy Quincy's place. They shot him and made out with $600",
+            health: -40,
+            money: 400,
+            streetCredit: 20,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "You got $250 off that punk",
             health: 0,
             money: 250,
             streetCredit: 10,
@@ -663,9 +709,23 @@ $(document).ready(function() {
     var robPedestrian = [
 
         {
-            scenario: "Got $40!",
+            scenario: "Got $60!",
             health: 0,
             money: 40,
+            streetCredit: 2,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "Got $60!",
+            health: 0,
+            money: 40,
+            streetCredit: 2,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "Got $80!",
+            health: 0,
+            money: 80,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
@@ -677,7 +737,7 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
-            scenario: "Got $40!",
+            scenario: "Got $100!",
             health: 0,
             money: 40,
             streetCredit: 2,
@@ -690,7 +750,14 @@ $(document).ready(function() {
             money: -400,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
         },
-    ]
+    ];
+    
+    
+       
+      //  level 2 options
+    //===================================================
+
+
 
 
     // create buttons to trigger all these scenarios
@@ -704,6 +771,8 @@ $(document).ready(function() {
             $("#optionButtons").append(div);
         }
     }
+    
+    
 
     // function to shuffle the arrays around
     function shuffleArray(array) {
@@ -900,7 +969,7 @@ $(document).ready(function() {
             levelUp();
         }
         else {
-
+            $("#actionImage").hide();
             $("#message").text("You have to own a car to do a drive-by!");
             $('#modal1').modal('open');
         }
@@ -1061,6 +1130,13 @@ $(document).ready(function() {
             streetCredit: 30,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
+         {
+            scenario: "You and your boys saw some punks slingin' on your corner! You beat some ass and jacked $200 off those punks!",
+            health: 0,
+            money: 200,
+            streetCredit: 30,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
         {
             scenario: "Your baby mama took your ass to court for child support. Pay $500 to that ho",
             health: 0,
@@ -1076,7 +1152,7 @@ $(document).ready(function() {
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
         },
         {
-            scenario: "While out at the club, you and yur boys spotted a rival gang member and jump him in the bathroom. You made $500",
+            scenario: "While out at the club, you and yur boys spotted a rival gang member and jumped him in the bathroom. You made $500",
             health: 0,
             money: 500,
             streetCredit: 10,
@@ -1097,9 +1173,23 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
         },
         {
+            scenario: "A rival gang did a drive by and shot your boy!",
+            health: -40,
+            money: 0,
+            streetCredit: 10,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
+        },
+        {
             scenario: "Your rival gang hasn't been able to get any dope, your sales have been way up this week. You made an extra $500 this week! ",
             health: 0,
-            money: 40,
+            money: 500,
+            streetCredit: 2,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "Your rival gang hasn't been able to get any dope, your sales have been way up this week. You made an extra $500 this week! ",
+            health: 0,
+            money: 500,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
@@ -1123,6 +1213,13 @@ $(document).ready(function() {
             money: -500,
             streetCredit: -100,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWX8MDpPSk3jWeiuFPM642Axathvt1D4RmSvlJ7onUJ1jJOQzI'
+        },
+         {
+            scenario: "Your rival gang hasn't been able to get any dope, your sales have been way up this week. You made an extra $1000 this week! ",
+            health: 0,
+            money: 1000,
+            streetCredit: 2,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
 
     ];

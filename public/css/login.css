@@ -111,7 +111,7 @@ footer {
 }
 
 
-#actionImage, .weaponImage {
+#actionImage, .weaponImage, #actionImage2 {
     height: 130px;
     width: 250px;
 }
@@ -119,9 +119,11 @@ footer {
 .tabs {
     margin-top: 10%;
     overflow: auto;
-    
 }
 
+p {
+    font-size: 20px;
+}
 #infoCard {
     margin-top: 25%;
 }

@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     value: {
-      type: DataTypes.TEXT,
+      type: DataTypes.INTEGER,
       allowNull: true,
       len: [1]
     },
@@ -28,6 +28,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       len: [0]
     }
+  
   });
 
   Weapon.associate = function(models) {
