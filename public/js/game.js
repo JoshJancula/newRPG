@@ -308,7 +308,7 @@ $(document).ready(function() {
 
     function performUpdate(k) {
         // get the quantity 
-        var quantity = $("#quantityInput").val();
+        var quantity = parseInt($("#quantityInput").val());
         if (!quantity || quantity.val == "") {
             quantity = 1;
         }
@@ -325,9 +325,9 @@ $(document).ready(function() {
         $("#money").text("You Have: $" + money);
         // if one already exists...
         if (doesExist === true) {
-            let newQ = (oldQ + 1);
+            oldQ += quantity;
             let newInventory = {
-                quantity: newQ,
+                quantity: oldQ,
             } // update the inventory 
             inventoryUpdate(newInventory, weaponId);
         }
