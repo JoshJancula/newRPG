@@ -142,6 +142,10 @@ p {
 
 @media screen and (max-width: 750px) and (min-width: 200px) {
     
+     #quantityInputArea {
+    margin-top: -20%;
+    margin-bottom: -15%;
+}
 
     .test {
         display: none;
