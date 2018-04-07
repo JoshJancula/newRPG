@@ -346,7 +346,7 @@ $(document).ready(function() {
 
         // tell them they bought it 
         if (type == "drug") {
-        $("#message").text("You bought " + quantity + " bags of " + name);
+        $("#message").text("You bought " + quantity + " bag(s) of " + name);
         $("#actionImage").attr('src', image)
         // $('#modal1').modal('open');
         } else {
@@ -405,8 +405,7 @@ $(document).ready(function() {
         checkInventory(k);
         // check if they have enough money
         if (total > money) {
-             $("#actionImage").hide();
-              $("#randomAction").show();
+              $("#actionImage").show();
             $("#message").text("You don't have enought $$$$$$$");
             // $('#modal1').modal('open');
         }
@@ -984,7 +983,24 @@ $(document).ready(function() {
 
 
     // when you click on saveGame
-    $(document).on("click", "#saveGame", "#saveGame2", function() {
+    $(document).on("click", "#saveGame", function() {
+        let info = {
+            username: username,
+            health: health,
+            defense: defense,
+            strength: strength,
+            money: money,
+            level: level,
+            streetCredit: streetCredit,
+        } // update your character
+        $("#actionImage").hide();
+        $("#message").text("Save Successfull");
+        // $('#modal1').modal('open');
+        updateUser(info);
+    });
+    
+     // when you click on saveGame
+    $(document).on("click", "#saveGame2", function() {
         let info = {
             username: username,
             health: health,
@@ -1136,7 +1152,7 @@ $(document).ready(function() {
              $("#randomAction").show();
             $("#actionImage").hide();
             $("#message").text("You need to have at least 4 AR-15's to rob a bank!");
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
         }
     });
 
@@ -1460,7 +1476,22 @@ $(document).ready(function() {
     randomStuff();
 
 
+// button to logout
+$(document).on("click", "#logout",  function(event) {
+    console.log("should be logging out");
+  $.get("/logout", function(data) {
+    window.location.href='/login';
+  });
+});
 
+
+// button to logout
+$(document).on("click", "#logout2", function(event) {
+    console.log("should be logging out");
+  $.get("/logout", function(data) {
+    window.location.href='/login';
+  });
+});
 
 
 });

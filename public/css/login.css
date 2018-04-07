@@ -111,10 +111,11 @@ footer {
 }
 
 
-#actionImage, .weaponImage, #actionImage2 {
-    height: 130px;
-    width: 250px;
+#actionImage, .weaponImage, #actionImage2, #randomAction {
+    height: 100px;
+    width: 300px;
 }
+
 
 .tabs {
     /*margin-top: 10%;*/
@@ -147,7 +148,7 @@ p {
 
  #test-swipe-1, #myCars, #cars, #myGuns, #guns, #myDrugs, #drugs {
 
-    height: 400px;
+    height: 230px;
     overflow: auto;
     position: scroll;
     opacity: .9;
