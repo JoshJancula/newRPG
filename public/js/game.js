@@ -1,5 +1,6 @@
 $(document).ready(function() {
-
+    $("#randomAction").hide();
+    $("#optionButtons2").hide();
     $('.modal').modal();
     $('select').material_select();
 
@@ -19,10 +20,14 @@ $(document).ready(function() {
     var oldQ;
     var doesExist = false;
     var hasCar = false;
+    var hasAR15 = false;
 
 
     // load the option buttons
+    loadOptions2();// load level 2 options
     loadOptions();
+   
+  
     // get the data of current user
     $.get("api/user_data", {}, function(data) {}).done(function(data) {
         userId = data.id;
@@ -36,6 +41,9 @@ $(document).ready(function() {
         money = data.money;
         $("#level").text("Level: " + data.level);
         level = data.level;
+        if (level > 1) {// if we're higher than level 1
+        $("#optionButtons2").show();
+   }
         $("#streetCredit").text("Street Credit: " + data.streetCredit);
         streetCredit = data.streetCredit;
         $("#defense").text(data.defense);
@@ -95,6 +103,7 @@ $(document).ready(function() {
                 $('#instructions2').hide();
                 hasCar = true;
             }
+            
             $("#instructions").html("<h3>You don't have any drugs to sell</h3>");
             $("#instructions2").html("<h3>You don't have a car</h3>");
             
@@ -254,6 +263,15 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4TIR9nMSzRL5_WR1XTv0HgNSeZnjK95vEC-yoQtGyteoI7csArg"
         },
+        {
+            index: 8,
+            name: "AR-15",
+            type: "gun",
+            value: 4,
+            price: 1200,
+            level: 1,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScKoEXFr-TZWuHdBldTfrYKsMbvaPtv6A3QDgzHJLSEhoxpO4Z-w"
+        },
 
 
     ];
@@ -305,6 +323,9 @@ $(document).ready(function() {
                     // update hasCar
                     hasCar = true;
                 }
+                else if (inventory[i].name == "AR-15" && inventory[i].quantity >= 4) {
+                hasAR15 = true;
+            }
             }
         }
     }
@@ -384,6 +405,7 @@ $(document).ready(function() {
         // check if they have enough money
         if (total > money) {
              $("#actionImage").hide();
+              $("#randomAction").show();
             $("#message").text("You don't have enought $$$$$$$");
             $('#modal1').modal('open');
         }
@@ -492,14 +514,14 @@ $(document).ready(function() {
             scenario: "Deal Successfull! Count that paper!",
             health: 0,
             money: 100,
-            streetCredit: 5,
+            streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
             scenario: "Deal Successfull! Count that paper!",
             health: 0,
             money: 100,
-            streetCredit: 5,
+            streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
@@ -666,43 +688,65 @@ $(document).ready(function() {
 
     ];
 
-    // possibilities for when 
-    var robDealer = [ // you rob a dealer
+    // when you rob an innocent pedestrian
+    var robGS = [
+
         {
-            scenario: "That mothaFucka shot you! Pay $500 for a doctor to keep it quiet.",
-            health: -50,
-            money: -500,
-            streetCredit: 20,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
-        },
-        {
-            scenario: "You got $250 off that punk",
+            scenario: "Got $60!",
             health: 0,
-            money: 250,
-            streetCredit: 10,
+            money: 40,
+            streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
          {
-            scenario: "You got $1000 off that punk. In retaliation him and his crew robbed your home boy Quincy's place. They shot him and made out with $600",
-            health: -40,
-            money: 400,
-            streetCredit: 20,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
-        },
-         {
-            scenario: "You got $250 off that punk",
+            scenario: "Got $200!",
             health: 0,
-            money: 250,
-            streetCredit: 10,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
-        },
-        {
-            scenario: "You got his stash and flipped it for $400 but he shot your boy Jarvis!",
-            health: 0,
-            money: 400,
+            money: 40,
             streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
-        }
+        },
+         {
+            scenario: "Got $60!",
+            health: 0,
+            money: 40,
+            streetCredit: 15,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "Got $80!",
+            health: 0,
+            money: 80,
+            streetCredit: 15,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+        {
+            scenario: "Got $40!",
+            health: 0,
+            money: 40,
+            streetCredit: 15,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+        {
+            scenario: "Got $100!",
+            health: 0,
+            money: 40,
+            streetCredit: 20,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+        {
+            scenario: "An off duty officer shot you! Pay $400 in bail and hospital fees",
+            health: -50,
+            streetCredit: 20,
+            money: -400,
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
+        },
+        {
+            scenario: "You got shot by the store clerk running out the door! You made out with $300 dollars but gotta pay a doctor $500 to keep queit!",
+            health: -50,
+            streetCredit: 20,
+            money: -200,
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
+        },
     ];
 
     // when you rob an innocent pedestrian
@@ -744,10 +788,10 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
-            scenario: "An off duty officer shot you! Pay $400 in bail and hospital fees",
+            scenario: "You got busted by the cops and they beat your ass! Pay $250 in bail",
             health: -50,
-            streetCredit: 20,
-            money: -400,
+            streetCredit: -20,
+            money: -250,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
         },
     ];
@@ -757,13 +801,89 @@ $(document).ready(function() {
       //  level 2 options
     //===================================================
 
+ // possibilities for when 
+    var robDealer = [ // you rob a dealer
+        {
+            scenario: "That mothaFucka shot you! Pay $500 for a doctor to keep it quiet.",
+            health: -50,
+            money: -500,
+            streetCredit: 20,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
+        },
+        {
+            scenario: "You got $250 off that punk",
+            health: 0,
+            money: 250,
+            streetCredit: 10,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "You got $1000 off that punk. In retaliation him and his crew robbed your home boy Quincy's place. They shot him and made out with $600",
+            health: -40,
+            money: 400,
+            streetCredit: 20,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "You got $250 off that punk",
+            health: 0,
+            money: 250,
+            streetCredit: 10,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+        {
+            scenario: "You got his stash and flipped it for $400 but he shot your boy Jarvis!",
+            health: 0,
+            money: 400,
+            streetCredit: 15,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        }
+    ];
 
+
+ var robBank = [ // you rob a bank
+        {
+            scenario: "Hell Yea!!!!!!!!!!!! You got a quick $20,000 to split with your boys!",
+            health: 0,
+            money: 5000,
+            streetCredit: 50,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
+        },
+        {
+            scenario: "You got $1000 off the teller but your boy Tabarius got shot by the security guard!",
+            health: -50,
+            money: 250,
+            streetCredit: 10,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "Someone in your crew snitched to the cops! They were waiting for you! Pay $600 in bail!",
+            health: -20,
+            money: -600,
+            streetCredit: 20,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+         {
+            scenario: "Your crew bitched out on you at the last minute! That ain't gangsta!",
+            health: -10,
+            money: 0,
+            streetCredit: -10,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        },
+        {
+            scenario: "You got $5,000 really quick but lost 2,000 of it due to an exploding dye pack!",
+            health: 0,
+            money: 750,
+            streetCredit: 15,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+        }
+    ];
 
 
     // create buttons to trigger all these scenarios
     function loadOptions() {
-        var optionValue = ["robPedestrian", "robDealer", "BE", "driveBy", "sellCrack", "sellWeed", "pimp"];
-        var options = ["Rob Pedestrian", "Rob a Dealer", "Do a B&E", "Drive-By Shooting", "Sell Crack", "Sell Weed", "Pimp Hoes"]
+        var optionValue = ["robPedestrian", "robGS", "BE", "driveBy", "sellCrack", "sellWeed", "pimp"];
+        var options = ["Rob a Pedestrian", "Rob a Gas Station", "Do a B&E", "Drive-By Shooting", "Sell Crack", "Sell Weed", "Pimp Hoes"]
         for (var i = 0; i < options.length; i++) {
             var div = $("<button value='" + i + "' class='btn optionButtons col l0 s10 push-s1'>");
             div.attr("id", optionValue[i]);
@@ -772,6 +892,18 @@ $(document).ready(function() {
         }
     }
     
+    
+     // hidden options show when you are level 2
+    function loadOptions2() {
+        var optionValue = ["robBank", "robDealer"];
+        var options2 = ["Rob a Bank", "Rob a Drug Dealer"]
+        for (var i = 0; i < options2.length; i++) {
+            var div = $("<button value='" + i + "' class='btn optionButtons col l0 s10 push-s1'>");
+            div.attr("id", optionValue[i]);
+            div.text(JSON.stringify(options2[i]));
+            $("#optionButtons2").append(div);
+        }
+    }
     
 
     // function to shuffle the arrays around
@@ -868,6 +1000,7 @@ $(document).ready(function() {
 
     // when you click on rob pedestrian
     $(document).on("click", "#robPedestrian", function() {
+        $("#randomAction").hide();
         $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(robPedestrian);
@@ -893,6 +1026,7 @@ $(document).ready(function() {
 
     // when you click on rob robdDealer
     $(document).on("click", "#robDealer", function() {
+         $("#randomAction").hide();
         $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(robDealer);
@@ -916,8 +1050,34 @@ $(document).ready(function() {
     });
 
 
+ // when you click on rob robGs
+    $(document).on("click", "#robGS", function() {
+         $("#randomAction").hide();
+        $("#actionImage").show();
+        // shuffle the scenarios around
+        shuffleArray(robGS);
+        // get the one off the end
+        var currentScenario = robGS.slice(-1)[0];
+        // tell them what happened
+        $("#actionImage").attr('src', currentScenario.image);
+        $("#message").text(currentScenario.scenario);
+        $('#modal1').modal('open');
+        // get info to update
+        health += Math.floor(currentScenario.health + ((defense + 5) / strength));
+        money += currentScenario.money;
+        streetCredit += currentScenario.streetCredit;
+        // update display
+        $("#health").text("Your Health: " + health);
+        $("#money").text("You Have: $" + money);
+        $("#streetCredit").text("Street Credit: " + streetCredit);
+        // run the functions
+        updateHealth();
+        levelUp();
+    });
+
     // when you click on do a B&E
     $(document).on("click", "#BE", function() {
+         $("#randomAction").hide();
         $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(BE);
@@ -941,7 +1101,45 @@ $(document).ready(function() {
     });
 
 
-    // when you click on do a drive-by
+    // when you click on rob a bank
+    $(document).on("click", "#robBank", function() {
+         $("#randomAction").hide();
+        var k = $(this).attr("value");
+        checkInventory(k)
+        console.log("has AR15: " + hasAR15)
+        if (hasAR15 == true) {
+            $("#actionImage").show();
+            // shuffle the scenarios around
+            shuffleArray(robBank);
+            // get the one off the end
+            var currentScenario = robBank.slice(-1)[0];
+            // tell them what happened
+            console.log(robBank[0].image)
+            $("#actionImage").attr('src', robBank[0].image);
+            $("#message").text(currentScenario.scenario);
+            $('#modal1').modal('open');
+            // get info to update
+            health += Math.floor(currentScenario.health + ((defense + 5) / strength));
+            money += currentScenario.money;
+            streetCredit += currentScenario.streetCredit;
+            // update display
+            $("#health").text("Your Health: " + health);
+            $("#money").text("You Have: $" + money);
+            $("#streetCredit").text("Street Credit: " + streetCredit);
+            // run the functions
+            updateHealth();
+            levelUp();
+        }
+        else {
+             $("#randomAction").show();
+            $("#actionImage").hide();
+            $("#message").text("You need to have at least 4 AR-15's to rob a bank!");
+            $('#modal1').modal('open');
+        }
+    });
+
+
+ // when you click on do a drive-by
     $(document).on("click", "#driveBy", function() {
         var k = $(this).attr("value");
         checkInventory(k)
@@ -969,14 +1167,18 @@ $(document).ready(function() {
             levelUp();
         }
         else {
+             $("#randomAction").show();
             $("#actionImage").hide();
             $("#message").text("You have to own a car to do a drive-by!");
             $('#modal1').modal('open');
         }
     });
 
+
+
     // when you click on sell crack
     $(document).on("click", "#sellCrack", function() {
+         $("#randomAction").hide();
         var k = $(this).attr("value");
         console.log("K at the beggining of sellCrack: " + k)
         // check inventory
@@ -1029,6 +1231,7 @@ $(document).ready(function() {
 
     // when you click on sell weed
     $(document).on("click", "#sellWeed", function() {
+         $("#randomAction").hide();
         var k = $(this).attr("value");
         console.log("K at the beggining of sellWeed: " + k)
         // check inventory
@@ -1080,6 +1283,7 @@ $(document).ready(function() {
 
     // when you click on pimp hoes
     $(document).on("click", "#pimp", function() {
+         $("#randomAction").hide();
         $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(pimp);
@@ -1226,6 +1430,7 @@ $(document).ready(function() {
 
     // gets a random scenario to occur 
     function randomStuff() {
+        $("#randomAction").hide();
         $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(randomScenarios);
