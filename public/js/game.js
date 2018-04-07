@@ -3,6 +3,7 @@ $(document).ready(function() {
     $("#optionButtons2").hide();
     $('.modal').modal();
     $('select').material_select();
+    $("#actionImage").attr('src', "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-6rNlwKDA7D6UOJNxAQiOlLt_VACoDredglM-x5exVVMhhxm")
 
     // setup and initialize the game
     //==================================
@@ -347,11 +348,11 @@ $(document).ready(function() {
         if (type == "drug") {
         $("#message").text("You bought " + quantity + " bags of " + name);
         $("#actionImage").attr('src', image)
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         } else {
         $("#message").text("You bought " + quantity + " " + name);
         $("#actionImage").attr('src', image)
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         }
         // update money display
         $("#money").text("You Have: $" + money);
@@ -407,7 +408,7 @@ $(document).ready(function() {
              $("#actionImage").hide();
               $("#randomAction").show();
             $("#message").text("You don't have enought $$$$$$$");
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
         }
         else { // if they do, update the user and weapon data
             // do the math
@@ -923,7 +924,8 @@ $(document).ready(function() {
             if (health <= 0) { // if you are dead...
                 $("#message").text("You Died!");
                 $("#actionImage").hide();
-                $('#modal1').modal('open');
+                $("#randomImage").show();
+                // $('#modal1').modal('open');
                 health = maxHealth;
                 money = 500;
                 streetCredit = 0;
@@ -976,13 +978,13 @@ $(document).ready(function() {
             $("#streetCredit").text("Street Credit: " + streetCredit);
             $("#actionImage").hide();
             $("#message").text("Congrats Homie! You are now level: " + level);
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
         }
     }
 
 
     // when you click on saveGame
-    $(document).on("click", "#saveGame", function() {
+    $(document).on("click", "#saveGame", "#saveGame2", function() {
         let info = {
             username: username,
             health: health,
@@ -994,7 +996,7 @@ $(document).ready(function() {
         } // update your character
         $("#actionImage").hide();
         $("#message").text("Save Successfull");
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         updateUser(info);
     });
 
@@ -1009,7 +1011,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
         money += currentScenario.money;
@@ -1035,7 +1037,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
         money += currentScenario.money;
@@ -1061,7 +1063,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
         money += currentScenario.money;
@@ -1086,7 +1088,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
         money += currentScenario.money;
@@ -1117,7 +1119,7 @@ $(document).ready(function() {
             console.log(robBank[0].image)
             $("#actionImage").attr('src', robBank[0].image);
             $("#message").text(currentScenario.scenario);
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 5) / strength));
             money += currentScenario.money;
@@ -1153,7 +1155,7 @@ $(document).ready(function() {
             console.log(driveBy[0].image)
             $("#actionImage").attr('src', driveBy[0].image);
             $("#message").text(currentScenario.scenario);
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 5) / strength));
             money += currentScenario.money;
@@ -1170,7 +1172,7 @@ $(document).ready(function() {
              $("#randomAction").show();
             $("#actionImage").hide();
             $("#message").text("You have to own a car to do a drive-by!");
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
         }
     });
 
@@ -1187,7 +1189,7 @@ $(document).ready(function() {
             // they don't have any to sell
             $("#actionImage").attr('src', weapons[k].image);
             $("#message").text("You don't have any crack to sell!");
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
         }
         else { // update the inventory
             let newQ = (oldQ - 1);
@@ -1203,7 +1205,7 @@ $(document).ready(function() {
             // tell them what happened
             $("#actionImage").attr('src', currentScenario.image);
             $("#message").text(currentScenario.scenario);
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 5) / strength));
             money += currentScenario.money;
@@ -1240,7 +1242,7 @@ $(document).ready(function() {
             // they don't have any to sell
             $("#actionImage").attr('src', weapons[k].image);
             $("#message").text("You don't have any weed to sell!");
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
         }
         else { // update the inventory
             let newQ = (oldQ - 1);
@@ -1256,7 +1258,7 @@ $(document).ready(function() {
             // tell them what happened
             $("#actionImage").attr('src', currentScenario.image);
             $("#message").text(currentScenario.scenario);
-            $('#modal1').modal('open');
+            // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 10) / strength));
             money += currentScenario.money;
@@ -1292,7 +1294,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
         money += currentScenario.money;
@@ -1439,7 +1441,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
-        $('#modal1').modal('open');
+        // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
         money += currentScenario.money;

@@ -117,31 +117,48 @@ footer {
 }
 
 .tabs {
-    margin-top: 10%;
-    overflow: auto;
+    /*margin-top: 10%;*/
+    /*overflow: auto;*/
 }
 
 p {
     font-size: 20px;
 }
+/*#infoCard {*/
+/*    margin-top: 25%;*/
+/*}*/
+
+/* #test-swipe-1, #test-swipe-2, #test-swipe-3, #forSale {*/
+
+/*    height: 400px;*/
+/*    overflow: auto;*/
+/*    position: scroll;*/
+/*    opacity: .9;*/
+/*}*/
+
 #infoCard {
-    margin-top: 25%;
+    margin-top: -3%;
 }
 
- #test-swipe-1, #test-swipe-2, #test-swipe-3, #forSale {
+#infoContents, #actionImage {
+    margin-top: 5%;
+}
 
-    height: 500px;
+
+ #test-swipe-1, #myCars, #cars, #myGuns, #guns, #myDrugs, #drugs {
+
+    height: 400px;
     overflow: auto;
     position: scroll;
     opacity: .9;
 }
-
 #saleTabs, #myTabs {
     margin-top: 0;
 }
 
 @media screen and (max-width: 750px) and (min-width: 200px) {
     
+   
      #quantityInputArea {
     margin-top: -20%;
     margin-bottom: -15%;
@@ -164,6 +181,16 @@ p {
         /*margin-left: 15%;*/
         /*border-radius: 40px;*/
     }
+    
+    #actionImage, .weaponImage, #actionImage2 {
+    height: 160px;
+    width: 220px;
+}
+
+#infoCard {
+    margin-top:-5%;
+}
+
     
  
 }
