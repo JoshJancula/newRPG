@@ -694,21 +694,21 @@ $(document).ready(function() {
         {
             scenario: "Got $60!",
             health: 0,
-            money: 40,
+            money: 60,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
          {
             scenario: "Got $200!",
             health: 0,
-            money: 40,
+            money: 200,
             streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
          {
             scenario: "Got $60!",
             health: 0,
-            money: 40,
+            money: 60,
             streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
@@ -729,7 +729,7 @@ $(document).ready(function() {
         {
             scenario: "Got $100!",
             health: 0,
-            money: 40,
+            money: 100,
             streetCredit: 20,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
@@ -755,14 +755,14 @@ $(document).ready(function() {
         {
             scenario: "Got $60!",
             health: 0,
-            money: 40,
+            money: 60,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
          {
             scenario: "Got $60!",
             health: 0,
-            money: 40,
+            money: 60,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
@@ -783,7 +783,7 @@ $(document).ready(function() {
         {
             scenario: "Got $100!",
             health: 0,
-            money: 40,
+            money: 100,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },

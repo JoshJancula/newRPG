@@ -141,6 +141,11 @@ p {
 }
 
 @media screen and (max-width: 750px) and (min-width: 200px) {
+    
+    p {
+    font-size: 10px;
+}
+
     .test {
         display: none;
 
