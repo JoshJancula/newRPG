@@ -171,7 +171,6 @@ module.exports = function(app) {
     console.log("begining of put on user_id: " + JSON.stringify(req.body));
     db.gameUser.update({ 
                 username: req.body.username,
-                health: req.body.health,
                 defense: req.body.defense,
                 strength: req.body.strength,
                 money: req.body.money,

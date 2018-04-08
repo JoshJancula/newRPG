@@ -37,6 +37,7 @@ $(document).ready(function() {
         $("#username").text(data.username);
         username = data.username;
         $("#health").text("Your Health: " + data.health);
+        maxHealth = data.health;
         health = data.health;
         $("#strength").text(data.strength);
         strength = data.strength;
@@ -93,7 +94,6 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-            // $("#weaponsDiv").append(div);
             if (result.type == "drug") {
                 $('#instructions').hide();
                 $("#myDrugs").append(div);
@@ -106,6 +106,9 @@ $(document).ready(function() {
                 $('#instructions2').hide();
                 hasCar = true;
             }
+            else if (inventory[i].name == "AR-15" && inventory[i].quantity >= 4) {
+                    hasAR15 = true;
+                }
 
             $("#instructions").html("<h3>You don't have any drugs to sell</h3>");
             $("#instructions2").html("<h3>You don't have a car</h3>");
@@ -149,7 +152,9 @@ $(document).ready(function() {
 
     // saves the weapon you purchased
     function saveWeapon(weapon) {
+       
         $.post("/api/weapons", weapon, function() {
+             setTimeout(function(){
             $.get("/api/users/" + userId, function(data) {
                 console.log("data from saveWeapon", data);
                 $("#myGuns").empty();
@@ -159,7 +164,8 @@ $(document).ready(function() {
                 // show em what they got
                 getWeapons(inventory);
             });
-        })
+        });
+        });
     }
 
 
@@ -361,15 +367,14 @@ $(document).ready(function() {
             $("#actionImage").attr('src', image)
             // $('#modal1').modal('open');
         }
-        else {
+        else  {
             $("#message").text("You bought " + quantity + " " + name);
             $("#actionImage").attr('src', image)
-            // $('#modal1').modal('open');
         }
         // update money display
         $("#money").text("You Have: $" + money);
         // if one already exists...
-        if (doesExist === true) {
+        if (doesExist == true) {
             oldQ += quantity;
             let newInventory = {
                 quantity: oldQ,
@@ -404,7 +409,7 @@ $(document).ready(function() {
 
 
     // complete the purchase
-    $(document).on("click", "#completePurchase", function() {
+    $(document).on("click", "#completePurchase", function(event) {
         event.preventDefault();
         // use the index value to get info
         var quantity = $("#quantityInput").val();
@@ -421,7 +426,6 @@ $(document).ready(function() {
             $("#actionImage").hide();
             $("#message").text("You don't have enough $$$$$$$");
             $("#quantityInput").val("");
-            // $('#modal1').modal('open');
         }
         else { // if they do, update the user and weapon data
             // do the math
@@ -437,10 +441,11 @@ $(document).ready(function() {
                 streetCredit: streetCredit,
             } // update user 
             updateUser(info);
-            // perform update based on doesExist value
-            setTimeout(function() {
-                performUpdate(k);
-            }, 500)
+            // perform update 
+            performUpdate(k);
+            // setTimeout(function() {
+            //     performUpdate(k);
+            // }, 1000)
         }
     });
 
@@ -561,7 +566,7 @@ $(document).ready(function() {
             health: 0,
             money: 0,
             streetCredit: -20,
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr3loD0g6Kq9Bc7MoIm_sZs0qcZKXoY-J_2P9FE-w4jBKnunWn8w"
         },
 
         {
@@ -994,6 +999,9 @@ $(document).ready(function() {
             $("#message").text("Congrats Homie! You are now level: " + level);
             // $('#modal1').modal('open');
         }
+        else if (level >= 2) {
+             $("#optionButtons2").show();
+        }
     }
 
 
@@ -1001,7 +1009,6 @@ $(document).ready(function() {
     $(document).on("click", "#saveGame", function() {
         let info = {
             username: username,
-            health: health,
             defense: defense,
             strength: strength,
             money: money,
@@ -1018,7 +1025,6 @@ $(document).ready(function() {
     $(document).on("click", "#saveGame2", function() {
         let info = {
             username: username,
-            health: health,
             defense: defense,
             strength: strength,
             money: money,
