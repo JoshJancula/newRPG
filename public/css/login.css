@@ -25,9 +25,16 @@ html {
     opacity: .9;
 }
 
+#userLoginCard {
+    overflow: auto;
+    margin-top: 100px;
+    border-radius: 60px;
+    opacity: .9;
+}
+
 .card {
       opacity: .8;
-    /*border-radius: 60px;*/
+    border-radius: 60px;
     /*background-color: red;*/
 }
 
@@ -35,7 +42,7 @@ html {
     overflow: auto;
     position: scroll;
     box-shadow: 0 10px 100px 0 black, 0 10px 100px 0 black;
-    height: 400px;
+    height: 500px;
 }
 
 #registerContainer {
@@ -49,16 +56,15 @@ html {
 }
 
 body {
-    
     overflow: auto;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4qtdy8-TptQ_xERtVxeYMD3s-ghqms8CD0x1fIdJkHGWcbXY);
+    /*background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4qtdy8-TptQ_xERtVxeYMD3s-ghqms8CD0x1fIdJkHGWcbXY);*/
     background-repeat: no-repeat;
+    background: black;
     background-size: cover;
 	background-position: center;
-
 }
 
 main {
@@ -112,8 +118,13 @@ footer {
 
 
 #actionImage, .weaponImage, #actionImage2, #randomAction {
-    height: 100px;
-    width: 300px;
+    margin-top: 5%;
+    height: 140px;
+    width: 320px;
+}
+
+.weaponImage {
+    margin-left: 10%;
 }
 
 
@@ -165,6 +176,13 @@ p {
     margin-bottom: -15%;
 }
 
+ .weaponImage {
+     height: 90px;
+     width: 120px;
+     margin-top: 15%;
+    margin-left: 0%;
+ }
+
     .test {
         display: none;
 
@@ -172,7 +190,6 @@ p {
     #userLogin {
         text-align: center;
         margin-top: 5%;
-       
         overflow: auto;
         border-radius: 40px;
     }
@@ -183,15 +200,15 @@ p {
         /*border-radius: 40px;*/
     }
     
-    #actionImage, .weaponImage, #actionImage2 {
-    height: 160px;
-    width: 220px;
+    #actionImage, #actionImage2 {
+    height: 200px;
+    width: 240px;
 }
 
 #infoCard {
     margin-top:-5%;
 }
 
-    
+ 
  
 }

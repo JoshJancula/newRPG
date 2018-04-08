@@ -1,9 +1,10 @@
 $(document).ready(function() {
     $("#randomAction").hide();
+    $("#message").text("Welcome Homie!!! Click below to do some gangsta shit!");
     $("#optionButtons2").hide();
     $('.modal').modal();
     $('select').material_select();
-    $("#actionImage").attr('src', "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw-6rNlwKDA7D6UOJNxAQiOlLt_VACoDredglM-x5exVVMhhxm")
+
 
     // setup and initialize the game
     //==================================
@@ -22,13 +23,14 @@ $(document).ready(function() {
     var doesExist = false;
     var hasCar = false;
     var hasAR15 = false;
-
+    var initialImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM4qtdy8-TptQ_xERtVxeYMD3s-ghqms8CD0x1fIdJkHGWcbXY";
+    $("#actionImage").attr('src', initialImage);
 
     // load the option buttons
-    loadOptions2();// load level 2 options
+    loadOptions2(); // load level 2 options
     loadOptions();
-   
-  
+
+
     // get the data of current user
     $.get("api/user_data", {}, function(data) {}).done(function(data) {
         userId = data.id;
@@ -42,9 +44,9 @@ $(document).ready(function() {
         money = data.money;
         $("#level").text("Level: " + data.level);
         level = data.level;
-        if (level > 1) {// if we're higher than level 1
-        $("#optionButtons2").show();
-   }
+        if (level > 1) { // if we're higher than level 1
+            $("#optionButtons2").show();
+        }
         $("#streetCredit").text("Street Credit: " + data.streetCredit);
         streetCredit = data.streetCredit;
         $("#defense").text(data.defense);
@@ -77,7 +79,7 @@ $(document).ready(function() {
         // create a card to put it all in
         var div = $("<div class='card'>");
         data.forEach(function(result) {
-           
+
             var div = $("<div>").append(
                 "<div class='row'>" +
                 "<div class='col l10 s12'>" + "<div class='card'>" + "<div class='card-image col l4 s12'>" + "<img class='weaponImage' src=" + result.image + ">" +
@@ -104,12 +106,12 @@ $(document).ready(function() {
                 $('#instructions2').hide();
                 hasCar = true;
             }
-            
+
             $("#instructions").html("<h3>You don't have any drugs to sell</h3>");
             $("#instructions2").html("<h3>You don't have a car</h3>");
-            
+
         });
-    
+
     }
 
 
@@ -273,6 +275,15 @@ $(document).ready(function() {
             level: 1,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScKoEXFr-TZWuHdBldTfrYKsMbvaPtv6A3QDgzHJLSEhoxpO4Z-w"
         },
+         {
+            index: 9,
+            name: "Cutless",
+            type: "car",
+            value: 4,
+            price: 2500,
+            level: 1,
+            image: "http://media.motortopia.com/files/33278/vehicle/4fc16de89e27f/DSC00012.jpg"
+        },
 
 
     ];
@@ -281,7 +292,7 @@ $(document).ready(function() {
     // function to show the weapons for sale
     function showWeapons() {
         weapons.forEach(function(result) {
-          
+
             var div = $("<div>").append(
                 "<div class='row'>" +
                 "<div class='col l10 s12'>" + "<div class='card inventoryCard'>" + "<div class='card-image col l4 s12'>" + "<img class='weaponImage' src=" + result.image + ">" +
@@ -296,7 +307,7 @@ $(document).ready(function() {
                 "</div>" +
                 "</div>"
             );
-          
+
             if (result.type == "drug") {
                 $("#drugs").append(div);
             }
@@ -306,7 +317,7 @@ $(document).ready(function() {
             else if (result.type == "car") {
                 $("#cars").append(div);
             }
-            
+
         });
     }
 
@@ -325,8 +336,8 @@ $(document).ready(function() {
                     hasCar = true;
                 }
                 else if (inventory[i].name == "AR-15" && inventory[i].quantity >= 4) {
-                hasAR15 = true;
-            }
+                    hasAR15 = true;
+                }
             }
         }
     }
@@ -346,13 +357,14 @@ $(document).ready(function() {
 
         // tell them they bought it 
         if (type == "drug") {
-        $("#message").text("You bought " + quantity + " bag(s) of " + name);
-        $("#actionImage").attr('src', image)
-        // $('#modal1').modal('open');
-        } else {
-        $("#message").text("You bought " + quantity + " " + name);
-        $("#actionImage").attr('src', image)
-        // $('#modal1').modal('open');
+            $("#message").text("You bought " + quantity + " bag(s) of " + name);
+            $("#actionImage").attr('src', image)
+            // $('#modal1').modal('open');
+        }
+        else {
+            $("#message").text("You bought " + quantity + " " + name);
+            $("#actionImage").attr('src', image)
+            // $('#modal1').modal('open');
         }
         // update money display
         $("#money").text("You Have: $" + money);
@@ -405,8 +417,10 @@ $(document).ready(function() {
         checkInventory(k);
         // check if they have enough money
         if (total > money) {
-              $("#actionImage").show();
-            $("#message").text("You don't have enought $$$$$$$");
+            $("#randomAction").show();
+            $("#actionImage").hide();
+            $("#message").text("You don't have enough $$$$$$$");
+            $("#quantityInput").val("");
             // $('#modal1').modal('open');
         }
         else { // if they do, update the user and weapon data
@@ -464,7 +478,7 @@ $(document).ready(function() {
             streetCredit: 5,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-          {
+        {
             scenario: "It's been hard on the girls, only made $200 tonight",
             health: 0,
             money: 200,
@@ -542,7 +556,7 @@ $(document).ready(function() {
             streetCredit: -20,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
         },
-         {
+        {
             scenario: "You got stabbed by a crackhead! You'll live but he got $50 worth of crack!",
             health: 0,
             money: 0,
@@ -587,7 +601,7 @@ $(document).ready(function() {
         },
 
     ];
-    
+
     // do a drive-by on some
     var driveBy = [ // punk mofos
 
@@ -613,7 +627,7 @@ $(document).ready(function() {
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xfH-ij-CraeFOC9_mPVgqpWV33fw9_RAO7tqopU4_xzRUGlb"
 
         },
-         {
+        {
             scenario: "You capped some Mofo's!",
             health: 0,
             money: 0,
@@ -626,6 +640,7 @@ $(document).ready(function() {
             money: -500,
             health: -60,
             streetCredit: -30,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWvxg-kUceymX0S7vvr0LtqnbwxoqbtL8SBmbhqrMpU-I1M7z-7A"
         },
         {
             scenario: "Hell Yea Boy! You capped a Mofo",
@@ -646,7 +661,7 @@ $(document).ready(function() {
             money: 350,
             streetCredit: 15,
             health: -50,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7xfH-ij-CraeFOC9_mPVgqpWV33fw9_RAO7tqopU4_xzRUGlb"
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWvxg-kUceymX0S7vvr0LtqnbwxoqbtL8SBmbhqrMpU-I1M7z-7A"
         },
         {
             scenario: "You got busted by the cops! $150 for bail bro!",
@@ -698,21 +713,21 @@ $(document).ready(function() {
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "Got $200!",
             health: 0,
             money: 200,
             streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "Got $60!",
             health: 0,
             money: 60,
             streetCredit: 15,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "Got $80!",
             health: 0,
             money: 80,
@@ -745,7 +760,7 @@ $(document).ready(function() {
             health: -50,
             streetCredit: 20,
             money: -200,
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWvxg-kUceymX0S7vvr0LtqnbwxoqbtL8SBmbhqrMpU-I1M7z-7A'
         },
     ];
 
@@ -759,14 +774,14 @@ $(document).ready(function() {
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "Got $60!",
             health: 0,
             money: 60,
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "Got $80!",
             health: 0,
             money: 80,
@@ -795,20 +810,20 @@ $(document).ready(function() {
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
         },
     ];
-    
-    
-       
-      //  level 2 options
+
+
+
+    //  level 2 options
     //===================================================
 
- // possibilities for when 
+    // possibilities for when 
     var robDealer = [ // you rob a dealer
         {
             scenario: "That mothaFucka shot you! Pay $500 for a doctor to keep it quiet.",
             health: -50,
             money: -500,
             streetCredit: 20,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWvxg-kUceymX0S7vvr0LtqnbwxoqbtL8SBmbhqrMpU-I1M7z-7A"
         },
         {
             scenario: "You got $250 off that punk",
@@ -817,14 +832,14 @@ $(document).ready(function() {
             streetCredit: 10,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "You got $1000 off that punk. In retaliation him and his crew robbed your home boy Quincy's place. They shot him and made out with $600",
             health: -40,
             money: 400,
             streetCredit: 20,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "You got $250 off that punk",
             health: 0,
             money: 250,
@@ -841,37 +856,37 @@ $(document).ready(function() {
     ];
 
 
- var robBank = [ // you rob a bank
+    var robBank = [ // you rob a bank
         {
             scenario: "Hell Yea!!!!!!!!!!!! You got a quick $20,000 to split with your boys!",
             health: 0,
             money: 5000,
             streetCredit: 50,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6DOiiI_lvLGYk05unvWfBl9YIn3PCHRY7YZVYIR_QzLG87cVZJw"
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
         {
             scenario: "You got $1000 off the teller but your boy Tabarius got shot by the security guard!",
             health: -50,
             money: 250,
             streetCredit: 10,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+           image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
-            scenario: "Someone in your crew snitched to the cops! They were waiting for you! Pay $600 in bail!",
+        {
+            scenario: "Someone in your crew snitched to the cops! They were waiting for you! Pay $1000 in bail!",
             health: -20,
-            money: -600,
-            streetCredit: 20,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+            money: -1000,
+            streetCredit: -40,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4XoUWXqSxZguyaQ9VNWwBpmulrbgFa1BDFa5boCsXulT0mEzw"
         },
-         {
+        {
             scenario: "Your crew bitched out on you at the last minute! That ain't gangsta!",
             health: -10,
             money: 0,
-            streetCredit: -10,
-            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
+            streetCredit: -30,
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4XoUWXqSxZguyaQ9VNWwBpmulrbgFa1BDFa5boCsXulT0mEzw"
         },
         {
-            scenario: "You got $5,000 really quick but lost 2,000 of it due to an exploding dye pack!",
+            scenario: "You got $5,000 really quick off the teller but lost 2,000 of it due to an exploding dye pack!",
             health: 0,
             money: 750,
             streetCredit: 15,
@@ -891,9 +906,9 @@ $(document).ready(function() {
             $("#optionButtons").append(div);
         }
     }
-    
-    
-     // hidden options show when you are level 2
+
+
+    // hidden options show when you are level 2
     function loadOptions2() {
         var optionValue = ["robBank", "robDealer"];
         var options2 = ["Rob a Bank", "Rob a Drug Dealer"]
@@ -904,7 +919,7 @@ $(document).ready(function() {
             $("#optionButtons2").append(div);
         }
     }
-    
+
 
     // function to shuffle the arrays around
     function shuffleArray(array) {
@@ -998,8 +1013,8 @@ $(document).ready(function() {
         // $('#modal1').modal('open');
         updateUser(info);
     });
-    
-     // when you click on saveGame
+
+    // when you click on saveGame
     $(document).on("click", "#saveGame2", function() {
         let info = {
             username: username,
@@ -1019,7 +1034,6 @@ $(document).ready(function() {
     // when you click on rob pedestrian
     $(document).on("click", "#robPedestrian", function() {
         $("#randomAction").hide();
-        $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(robPedestrian);
         // get the one off the end
@@ -1027,6 +1041,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
+         $("#actionImage").show();
         // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1044,8 +1059,7 @@ $(document).ready(function() {
 
     // when you click on rob robdDealer
     $(document).on("click", "#robDealer", function() {
-         $("#randomAction").hide();
-        $("#actionImage").show();
+        $("#randomAction").hide();
         // shuffle the scenarios around
         shuffleArray(robDealer);
         // get the one off the end
@@ -1053,6 +1067,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
+           $("#actionImage").show();
         // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1068,10 +1083,9 @@ $(document).ready(function() {
     });
 
 
- // when you click on rob robGs
+    // when you click on rob robGs
     $(document).on("click", "#robGS", function() {
-         $("#randomAction").hide();
-        $("#actionImage").show();
+        $("#randomAction").hide();
         // shuffle the scenarios around
         shuffleArray(robGS);
         // get the one off the end
@@ -1079,6 +1093,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
+        $("#actionImage").show();
         // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1095,8 +1110,7 @@ $(document).ready(function() {
 
     // when you click on do a B&E
     $(document).on("click", "#BE", function() {
-         $("#randomAction").hide();
-        $("#actionImage").show();
+        $("#randomAction").hide();
         // shuffle the scenarios around
         shuffleArray(BE);
         // get the one off the end
@@ -1104,6 +1118,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
+        $("#actionImage").show();
         // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1121,12 +1136,11 @@ $(document).ready(function() {
 
     // when you click on rob a bank
     $(document).on("click", "#robBank", function() {
-         $("#randomAction").hide();
+        $("#randomAction").hide();
         var k = $(this).attr("value");
         checkInventory(k)
         console.log("has AR15: " + hasAR15)
         if (hasAR15 == true) {
-            $("#actionImage").show();
             // shuffle the scenarios around
             shuffleArray(robBank);
             // get the one off the end
@@ -1135,6 +1149,7 @@ $(document).ready(function() {
             console.log(robBank[0].image)
             $("#actionImage").attr('src', robBank[0].image);
             $("#message").text(currentScenario.scenario);
+            $("#actionImage").show();
             // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1149,7 +1164,7 @@ $(document).ready(function() {
             levelUp();
         }
         else {
-             $("#randomAction").show();
+            $("#randomAction").show();
             $("#actionImage").hide();
             $("#message").text("You need to have at least 4 AR-15's to rob a bank!");
             // $('#modal1').modal('open');
@@ -1157,12 +1172,12 @@ $(document).ready(function() {
     });
 
 
- // when you click on do a drive-by
+    // when you click on do a drive-by
     $(document).on("click", "#driveBy", function() {
+        $("#randomImage").hide();
         var k = $(this).attr("value");
         checkInventory(k)
         if (hasCar == true) {
-            $("#actionImage").show();
             // shuffle the scenarios around
             shuffleArray(driveBy);
             // get the one off the end
@@ -1171,6 +1186,7 @@ $(document).ready(function() {
             console.log(driveBy[0].image)
             $("#actionImage").attr('src', driveBy[0].image);
             $("#message").text(currentScenario.scenario);
+            $("#actionImage").show();
             // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1185,7 +1201,7 @@ $(document).ready(function() {
             levelUp();
         }
         else {
-             $("#randomAction").show();
+            $("#randomAction").show();
             $("#actionImage").hide();
             $("#message").text("You have to own a car to do a drive-by!");
             // $('#modal1').modal('open');
@@ -1196,7 +1212,7 @@ $(document).ready(function() {
 
     // when you click on sell crack
     $(document).on("click", "#sellCrack", function() {
-         $("#randomAction").hide();
+        $("#randomAction").hide();
         var k = $(this).attr("value");
         console.log("K at the beggining of sellCrack: " + k)
         // check inventory
@@ -1213,13 +1229,13 @@ $(document).ready(function() {
                 quantity: newQ,
             } // update the inventory 
             inventoryUpdate(newInventory, weaponId);
-            $("#actionImage").show();
             // shuffle the scenarios around
             shuffleArray(sellCrack);
             // get the one off the end
             var currentScenario = sellCrack.slice(-1)[0];
             // tell them what happened
             $("#actionImage").attr('src', currentScenario.image);
+            $("#actionImage").show();
             $("#message").text(currentScenario.scenario);
             // $('#modal1').modal('open');
             // get info to update
@@ -1249,7 +1265,7 @@ $(document).ready(function() {
 
     // when you click on sell weed
     $(document).on("click", "#sellWeed", function() {
-         $("#randomAction").hide();
+        $("#randomAction").hide();
         var k = $(this).attr("value");
         console.log("K at the beggining of sellWeed: " + k)
         // check inventory
@@ -1266,7 +1282,6 @@ $(document).ready(function() {
                 quantity: newQ,
             } // update the inventory 
             inventoryUpdate(newInventory, weaponId);
-            $("#actionImage").show();
             // shuffle the scenarios around
             shuffleArray(sellWeed);
             // get the one off the end
@@ -1274,6 +1289,7 @@ $(document).ready(function() {
             // tell them what happened
             $("#actionImage").attr('src', currentScenario.image);
             $("#message").text(currentScenario.scenario);
+            $("#actionImage").show();
             // $('#modal1').modal('open');
             // get info to update
             health += Math.floor(currentScenario.health + ((defense + 10) / strength));
@@ -1301,8 +1317,7 @@ $(document).ready(function() {
 
     // when you click on pimp hoes
     $(document).on("click", "#pimp", function() {
-         $("#randomAction").hide();
-        $("#actionImage").show();
+        $("#randomAction").hide();
         // shuffle the scenarios around
         shuffleArray(pimp);
         // get the one off the end
@@ -1310,6 +1325,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
+         $("#actionImage").show();
         // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1352,7 +1368,7 @@ $(document).ready(function() {
             streetCredit: 30,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "You and your boys saw some punks slingin' on your corner! You beat some ass and jacked $200 off those punks!",
             health: 0,
             money: 200,
@@ -1408,7 +1424,7 @@ $(document).ready(function() {
             streetCredit: 2,
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKvfzj2PEfKLYrG0nIGoTqBusvKe0lD_sHGG_uHqU9Hs8Uwp--"
         },
-         {
+        {
             scenario: "Your rival gang hasn't been able to get any dope, your sales have been way up this week. You made an extra $500 this week! ",
             health: 0,
             money: 500,
@@ -1427,7 +1443,7 @@ $(document).ready(function() {
             health: 0,
             money: -1000,
             streetCredit: 20,
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Du22ozTWTIQ4yvdrCUgKYiii8wCvoaQMwZqfOO44EM_Q09o_ig'
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgcjFTpkUkS9X-aOeLfmcTE5gJxuw-1EKEzpwETtbyV2nQWrbb'
         },
         {
             scenario: "You got jumped and those guys got you for $500!",
@@ -1436,7 +1452,7 @@ $(document).ready(function() {
             streetCredit: -100,
             image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWX8MDpPSk3jWeiuFPM642Axathvt1D4RmSvlJ7onUJ1jJOQzI'
         },
-         {
+        {
             scenario: "Your rival gang hasn't been able to get any dope, your sales have been way up this week. You made an extra $1000 this week! ",
             health: 0,
             money: 1000,
@@ -1449,7 +1465,6 @@ $(document).ready(function() {
     // gets a random scenario to occur 
     function randomStuff() {
         $("#randomAction").hide();
-        $("#actionImage").show();
         // shuffle the scenarios around
         shuffleArray(randomScenarios);
         // get the one off the end
@@ -1457,6 +1472,7 @@ $(document).ready(function() {
         // tell them what happened
         $("#actionImage").attr('src', currentScenario.image);
         $("#message").text(currentScenario.scenario);
+         $("#actionImage").show();
         // $('#modal1').modal('open');
         // get info to update
         health += Math.floor(currentScenario.health + ((defense + 5) / strength));
@@ -1473,25 +1489,28 @@ $(document).ready(function() {
     }
 
     // call this function 
-    randomStuff();
+    // randomStuff();
+    setTimeout(function() {
+        randomStuff()
+    }, 60000)
 
 
-// button to logout
-$(document).on("click", "#logout",  function(event) {
-    console.log("should be logging out");
-  $.get("/logout", function(data) {
-    window.location.href='/login';
-  });
-});
+    // button to logout
+    $(document).on("click", "#logout", function(event) {
+        console.log("should be logging out");
+        $.get("/logout", function(data) {
+            window.location.href = '/login';
+        });
+    });
 
 
-// button to logout
-$(document).on("click", "#logout2", function(event) {
-    console.log("should be logging out");
-  $.get("/logout", function(data) {
-    window.location.href='/login';
-  });
-});
+    // button to logout
+    $(document).on("click", "#logout2", function(event) {
+        console.log("should be logging out");
+        $.get("/logout", function(data) {
+            window.location.href = '/login';
+        });
+    });
 
 
 });
